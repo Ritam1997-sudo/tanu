@@ -52,57 +52,62 @@
                 </div>
             </div>
 
-            <!-- Schema Generator Tool -->
-            <div class="generator-tool">
-                <div class="tool-header">
-                    <h2>🚀 Generate Schema Markup</h2>
-                    <p>Select schema type and fill in the fields</p>
+           <!-- Schema Generator Tool -->
+<div class="generator-tool">
+    <div class="tool-header">
+        <h2>🚀 Generate Schema Markup</h2>
+        <p>Select schema type and fill in the fields</p>
+    </div>
+   
+    <div class="tool-body">
+        <div class="tool-left">
+            <div class="form-group">
+                <label for="schemaType">Select Schema Type</label>
+                <select id="schemaType" class="form-control">
+                    <option value="Organization">Organization Schema</option>
+                    <option value="LocalBusiness">Local Business Schema</option>
+                    <option value="Product">Product Schema</option>
+                    <option value="Article">Article Schema</option>
+                    <option value="FAQPage">FAQ Schema</option>
+                    <option value="HowTo">How-To Schema</option>
+                    <option value="Recipe">Recipe Schema</option>
+                    <option value="Event">Event Schema</option>
+                    <option value="Person">Person Schema</option>
+                    <option value="Review">Review Schema</option>
+                    <option value="VideoObject">Video Schema</option>
+                    <option value="BreadcrumbList">Breadcrumb Schema</option>
+                </select>
+            </div>
+            <div id="dynamicFields" class="dynamic-fields">
+                <!-- Dynamic fields will be injected here -->
+            </div>
+            <!-- New Custom Properties Section -->
+            <div class="custom-section" id="customSection" style="margin-top: 1rem; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px; background: #f9f9f9;">
+                <h4>🔧 Additional Custom Properties</h4>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Add any extra schema properties (e.g., "foundingDate": "2020-01-01") to extend your schema without restrictions.</p>
+                <div id="customProps">
+                    <!-- Custom properties will be dynamically added here -->
                 </div>
-                
-                <div class="tool-body">
-                    <div class="tool-left">
-                        <div class="form-group">
-                            <label for="schemaType">Select Schema Type</label>
-                            <select id="schemaType" class="form-control">
-                                <option value="Organization">Organization Schema</option>
-                                <option value="LocalBusiness">Local Business Schema</option>
-                                <option value="Product">Product Schema</option>
-                                <option value="Article">Article Schema</option>
-                                <option value="FAQPage">FAQ Schema</option>
-                                <option value="HowTo">How-To Schema</option>
-                                <option value="Recipe">Recipe Schema</option>
-                                <option value="Event">Event Schema</option>
-                                <option value="Person">Person Schema</option>
-                                <option value="Review">Review Schema</option>
-                                <option value="VideoObject">Video Schema</option>
-                                <option value="BreadcrumbList">Breadcrumb Schema</option>
-                            </select>
-                        </div>
-
-                        <div id="dynamicFields" class="dynamic-fields">
-                            <!-- Dynamic fields will be injected here -->
-                        </div>
-
-                        <div class="tool-actions">
-                            <button id="generateBtn" class="btn btn-primary">✨ Generate Schema</button>
-                            <button id="clearBtn" class="btn btn-secondary">🔄 Clear Form</button>
-                        </div>
-                    </div>
-
-                    <div class="tool-right">
-                        <div class="preview-header">
-                            <h3>📋 JSON-LD Preview</h3>
-                            <span id="validationStatus" class="validation-status"></span>
-                        </div>
-                        <pre id="schemaOutput" class="schema-output">// Your generated schema will appear here...</pre>
-                        <div class="output-actions">
-                            <button id="copyBtn" class="btn btn-success">📄 Copy to Clipboard</button>
-                            <button id="downloadBtn" class="btn btn-success">💾 Download JSON</button>
-                        </div>
-                    </div>
-                </div>
+                <button type="button" onclick="addCustomProp()" class="btn btn-secondary" style="margin-top: 0.5rem; width: 100%;">➕ Add Custom Property</button>
+            </div>
+            <div class="tool-actions">
+                <button id="generateBtn" class="btn btn-primary">✨ Generate Schema</button>
+                <button id="clearBtn" class="btn btn-secondary">🔄 Clear Form</button>
             </div>
         </div>
+        <div class="tool-right">
+            <div class="preview-header">
+                <h3>📋 JSON-LD Preview</h3>
+                <span id="validationStatus" class="validation-status"></span>
+            </div>
+            <pre id="schemaOutput" class="schema-output">// Your generated schema will appear here...</pre>
+            <div class="output-actions">
+                <button id="copyBtn" class="btn btn-success">📄 Copy to Clipboard</button>
+                <button id="downloadBtn" class="btn btn-success">💾 Download JSON</button>
+            </div>
+        </div>
+    </div>
+</div>
     </section>
 
     <!-- Introduction Section -->
