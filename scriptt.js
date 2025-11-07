@@ -1,5 +1,64 @@
-// Schema Markup Generator - Lightweight JavaScript
 
+<!-- Schema Generator Tool -->
+<div class="generator-tool">
+    <div class="tool-header">
+        <h2>🚀 Generate Schema Markup</h2>
+        <p>Select schema type and fill in the fields</p>
+    </div>
+   
+    <div class="tool-body">
+        <div class="tool-left">
+            <div class="form-group">
+                <label for="schemaType">Select Schema Type</label>
+                <select id="schemaType" class="form-control">
+                    <option value="Organization">Organization Schema</option>
+                    <option value="LocalBusiness">Local Business Schema</option>
+                    <option value="Product">Product Schema</option>
+                    <option value="Article">Article Schema</option>
+                    <option value="FAQPage">FAQ Schema</option>
+                    <option value="HowTo">How-To Schema</option>
+                    <option value="Recipe">Recipe Schema</option>
+                    <option value="Event">Event Schema</option>
+                    <option value="Person">Person Schema</option>
+                    <option value="Review">Review Schema</option>
+                    <option value="VideoObject">Video Schema</option>
+                    <option value="BreadcrumbList">Breadcrumb Schema</option>
+                </select>
+            </div>
+            <div id="dynamicFields" class="dynamic-fields">
+                <!-- Dynamic fields will be injected here -->
+            </div>
+            <!-- New Custom Properties Section -->
+            <div class="custom-section" id="customSection" style="margin-top: 1rem; padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px; background: #f9f9f9;">
+                <h4>🔧 Additional Custom Properties</h4>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Add any extra schema properties (e.g., "foundingDate": "2020-01-01") to extend your schema without restrictions.</p>
+                <div id="customProps">
+                    <!-- Custom properties will be dynamically added here -->
+                </div>
+                <button type="button" onclick="addCustomProp()" class="btn btn-secondary" style="margin-top: 0.5rem; width: 100%;">➕ Add Custom Property</button>
+            </div>
+            <div class="tool-actions">
+                <button id="generateBtn" class="btn btn-primary">✨ Generate Schema</button>
+                <button id="clearBtn" class="btn btn-secondary">🔄 Clear Form</button>
+            </div>
+        </div>
+        <div class="tool-right">
+            <div class="preview-header">
+                <h3>📋 JSON-LD Preview</h3>
+                <span id="validationStatus" class="validation-status"></span>
+            </div>
+            <pre id="schemaOutput" class="schema-output">// Your generated schema will appear here...</pre>
+            <div class="output-actions">
+                <button id="copyBtn" class="btn btn-success">📄 Copy to Clipboard</button>
+                <button id="downloadBtn" class="btn btn-success">💾 Download JSON</button>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+```javascript
+// Schema Markup Generator - Lightweight JavaScript
 // Schema field definitions for each type
 const schemaFields = {
     Organization: [
@@ -124,7 +183,6 @@ const schemaFields = {
         { name: 'item3Url', label: 'Level 3 URL', type: 'url', required: false }
     ]
 };
-
 // Schema generators
 const schemaGenerators = {
     Organization: (data) => ({
@@ -147,7 +205,6 @@ const schemaGenerators = {
             }
         })
     }),
-
     LocalBusiness: (data) => ({
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
@@ -165,7 +222,6 @@ const schemaGenerators = {
         ...(data.priceRange && { "priceRange": data.priceRange }),
         ...(data.openingHours && { "openingHours": data.openingHours })
     }),
-
     Product: (data) => ({
         "@context": "https://schema.org",
         "@type": "Product",
@@ -189,7 +245,6 @@ const schemaGenerators = {
             }
         })
     }),
-
     Article: (data) => ({
         "@context": "https://schema.org",
         "@type": "Article",
@@ -211,7 +266,6 @@ const schemaGenerators = {
         ...(data.dateModified && { "dateModified": data.dateModified }),
         ...(data.description && { "description": data.description })
     }),
-
     FAQPage: (data) => {
         const mainEntity = [];
         for (let i = 1; i <= 3; i++) {
@@ -232,7 +286,6 @@ const schemaGenerators = {
             "mainEntity": mainEntity
         };
     },
-
     HowTo: (data) => {
         const steps = [];
         for (let i = 1; i <= 3; i++) {
@@ -253,7 +306,6 @@ const schemaGenerators = {
             "step": steps
         };
     },
-
     Recipe: (data) => ({
         "@context": "https://schema.org",
         "@type": "Recipe",
@@ -275,7 +327,6 @@ const schemaGenerators = {
             }
         })
     }),
-
     Event: (data) => ({
         "@context": "https://schema.org",
         "@type": "Event",
@@ -303,7 +354,6 @@ const schemaGenerators = {
             }
         })
     }),
-
     Person: (data) => ({
         "@context": "https://schema.org",
         "@type": "Person",
@@ -322,7 +372,6 @@ const schemaGenerators = {
         }),
         ...(data.description && { "description": data.description })
     }),
-
     Review: (data) => ({
         "@context": "https://schema.org",
         "@type": "Review",
@@ -342,7 +391,6 @@ const schemaGenerators = {
         "reviewBody": data.reviewBody,
         ...(data.datePublished && { "datePublished": data.datePublished })
     }),
-
     VideoObject: (data) => ({
         "@context": "https://schema.org",
         "@type": "VideoObject",
@@ -353,7 +401,6 @@ const schemaGenerators = {
         ...(data.duration && { "duration": data.duration }),
         ...(data.contentUrl && { "contentUrl": data.contentUrl })
     }),
-
     BreadcrumbList: (data) => {
         const itemListElement = [];
         for (let i = 1; i <= 3; i++) {
@@ -373,35 +420,35 @@ const schemaGenerators = {
         };
     }
 };
-
 // DOM elements
 const schemaTypeSelect = document.getElementById('schemaType');
 const dynamicFields = document.getElementById('dynamicFields');
+const customSection = document.getElementById('customSection');
+const customProps = document.getElementById('customProps');
 const generateBtn = document.getElementById('generateBtn');
 const clearBtn = document.getElementById('clearBtn');
 const schemaOutput = document.getElementById('schemaOutput');
 const copyBtn = document.getElementById('copyBtn');
 const downloadBtn = document.getElementById('downloadBtn');
 const validationStatus = document.getElementById('validationStatus');
-
 // Current schema data
 let currentSchema = null;
-
+let customPropCount = 0;
 // Render dynamic fields based on selected schema type
 function renderFields() {
     const schemaType = schemaTypeSelect.value;
     const fields = schemaFields[schemaType];
-    
+   
     dynamicFields.innerHTML = '';
-    
+   
     fields.forEach(field => {
         const formGroup = document.createElement('div');
         formGroup.className = 'form-group';
-        
+       
         const label = document.createElement('label');
         label.textContent = field.label;
         label.htmlFor = field.name;
-        
+       
         let input;
         if (field.type === 'textarea') {
             input = document.createElement('textarea');
@@ -410,30 +457,79 @@ function renderFields() {
             input = document.createElement('input');
             input.type = field.type;
         }
-        
+       
         input.id = field.name;
         input.name = field.name;
         input.className = 'form-control';
         input.required = field.required;
-        
+       
         formGroup.appendChild(label);
         formGroup.appendChild(input);
         dynamicFields.appendChild(formGroup);
     });
+   
+    // Reset custom props on type change
+    clearCustomProps();
 }
-
+// Add a custom property input pair
+function addCustomProp() {
+    customPropCount++;
+    const propGroup = document.createElement('div');
+    propGroup.className = 'custom-prop-group';
+    propGroup.id = `customPropGroup${customPropCount}`;
+    propGroup.style.marginBottom = '1rem';
+    propGroup.style.padding = '0.5rem';
+    propGroup.style.border = '1px dashed #ccc';
+    propGroup.style.borderRadius = '4px';
+    propGroup.style.display = 'flex';
+    propGroup.style.gap = '0.5rem';
+    propGroup.style.alignItems = 'end';
+   
+    const keyInput = document.createElement('input');
+    keyInput.type = 'text';
+    keyInput.placeholder = 'Property Name (e.g., foundingDate)';
+    keyInput.className = 'form-control';
+    keyInput.style.flex = '1';
+    keyInput.id = `customKey${customPropCount}`;
+    keyInput.name = `customKey${customPropCount}`;
+   
+    const valueInput = document.createElement('textarea');
+    valueInput.rows = 2;
+    valueInput.placeholder = 'Property Value (e.g., 2020-01-01)';
+    valueInput.className = 'form-control';
+    valueInput.style.flex = '2';
+    valueInput.id = `customValue${customPropCount}`;
+    valueInput.name = `customValue${customPropCount}`;
+   
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '🗑️ Remove';
+    removeBtn.className = 'btn btn-danger';
+    removeBtn.style.fontSize = '0.8rem';
+    removeBtn.onclick = () => propGroup.remove();
+   
+    propGroup.appendChild(keyInput);
+    propGroup.appendChild(valueInput);
+    propGroup.appendChild(removeBtn);
+    customProps.appendChild(propGroup);
+}
+// Clear custom properties
+function clearCustomProps() {
+    customProps.innerHTML = '';
+    customPropCount = 0;
+}
 // Generate schema from form data
 function generateSchema() {
     const schemaType = schemaTypeSelect.value;
     const fields = schemaFields[schemaType];
     const data = {};
-    
+   
     // Collect form data
     let hasRequiredFields = true;
     fields.forEach(field => {
         const input = document.getElementById(field.name);
         const value = input.value.trim();
-        
+       
         if (field.required && !value) {
             hasRequiredFields = false;
             input.style.borderColor = '#F44336';
@@ -444,43 +540,62 @@ function generateSchema() {
             }
         }
     });
-    
+   
     if (!hasRequiredFields) {
         alert('Please fill in all required fields (marked with *)');
         return;
     }
-    
-    // Generate schema
+   
+    // Generate base schema
     const generator = schemaGenerators[schemaType];
     currentSchema = generator(data);
-    
+   
+    // Collect and add custom properties
+    for (let i = 1; i <= customPropCount; i++) {
+        const keyEl = document.getElementById(`customKey${i}`);
+        const valueEl = document.getElementById(`customValue${i}`);
+        if (keyEl && valueEl) {
+            const key = keyEl.value.trim();
+            const value = valueEl.value.trim();
+            if (key && value) {
+                try {
+                    // Attempt to parse value as JSON for complex values (e.g., arrays/objects)
+                    const parsedValue = JSON.parse(value);
+                    currentSchema[key] = parsedValue;
+                } catch {
+                    // Fallback to string
+                    currentSchema[key] = value;
+                }
+            }
+        }
+    }
+   
     // Display schema
     schemaOutput.textContent = JSON.stringify(currentSchema, null, 2);
-    
+   
     // Update validation status
-    validationStatus.textContent = '✓ Valid Schema';
+    validationStatus.textContent = '✓ Valid Schema (with custom props)';
     validationStatus.className = 'validation-status valid';
 }
-
 // Clear form
 function clearForm() {
     dynamicFields.querySelectorAll('input, textarea').forEach(input => {
         input.value = '';
         input.style.borderColor = '';
     });
+    clearCustomProps();
     schemaOutput.textContent = '// Your generated schema will appear here...';
     validationStatus.textContent = '';
     validationStatus.className = 'validation-status';
     currentSchema = null;
 }
-
 // Copy to clipboard
 function copyToClipboard() {
     if (!currentSchema) {
         alert('Please generate schema first');
         return;
     }
-    
+   
     const schemaText = JSON.stringify(currentSchema, null, 2);
     navigator.clipboard.writeText(schemaText).then(() => {
         const originalText = copyBtn.textContent;
@@ -492,14 +607,13 @@ function copyToClipboard() {
         alert('Failed to copy to clipboard');
     });
 }
-
 // Download JSON
 function downloadJSON() {
     if (!currentSchema) {
         alert('Please generate schema first');
         return;
     }
-    
+   
     const schemaText = JSON.stringify(currentSchema, null, 2);
     const blob = new Blob([schemaText], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -511,7 +625,6 @@ function downloadJSON() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-
 // FAQ Accordion
 function initFAQ() {
     const faqQuestions = document.querySelectorAll('.faq-question');
@@ -519,12 +632,12 @@ function initFAQ() {
         question.addEventListener('click', () => {
             const faqItem = question.parentElement;
             const isActive = faqItem.classList.contains('active');
-            
+           
             // Close all FAQs
             document.querySelectorAll('.faq-item').forEach(item => {
                 item.classList.remove('active');
             });
-            
+           
             // Toggle current FAQ
             if (!isActive) {
                 faqItem.classList.add('active');
@@ -532,14 +645,12 @@ function initFAQ() {
         });
     });
 }
-
 // Event listeners
 schemaTypeSelect.addEventListener('change', renderFields);
 generateBtn.addEventListener('click', generateSchema);
 clearBtn.addEventListener('click', clearForm);
 copyBtn.addEventListener('click', copyToClipboard);
 downloadBtn.addEventListener('click', downloadJSON);
-
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     renderFields();
